@@ -1,0 +1,17 @@
+name: Compatibility Check
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  compatibility-check:
+    name: Compatibility Check
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Give permissions for script to run
+        run: |
+          sudo chmod +x build-deploy.sh
+      - name: Run script
+        run: ./build-deploy.sh
