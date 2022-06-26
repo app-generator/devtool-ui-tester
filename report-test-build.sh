@@ -16,8 +16,7 @@ NODE_VERSION=$(node --version)
 
 declare -a NODE_COMMANDS=("yarn" "npm")
 
-SERVE_COMMANDS=$(serve -l 4000 -s .)
-
+echo "Starting compatibily test"
 
 readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads the repositories from the json file
 
@@ -62,8 +61,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             continue
         fi
       echo "Running build with $command"
-        if $command == "npm"; then
-            if $command build; then
+        if [ "$command" = "npm" ]; then
+            if $command run build; then
                 print_message "success" "Built $command"
             else
                 print_message "error" "Build failed $command"
@@ -80,15 +79,20 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             fi
         fi
 
+        yarn add serve
+
         echo "Serving application"
-        if $command serve -s build &; then
-            chrome --headless --screenshot="chrome.png" "http://localhost:3000"
-            killall -9 node
+        if serve -s build & 
+        then
+            echo "Serving applicatio with $command"
+            chromium-browser --headless --screenshot="${command}-node-${NODE_VERSION}-chrome.png" "http://localhost:3000"
         else
             print_message "error" "Serving build failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
             continue
+        fi
+        killall -9 node
     done
+
     cd ..
-    rm -r $(basename $repoURL .git)
  done 
