@@ -97,7 +97,7 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             echo "Serving application with $command"
             chromium-browser --headless --screenshot=$sshot_name "http://localhost:3000"
 
-            echo "GH report OK (body)" | mail chirilovadrian@gmail.com –s 'React Report' # -A $sshot_name 
+            mail chirilovadrian@gmail.com –s 'React Report' -b 'GH report OK (body)' 
 
         else
             print_message "error" "$repoDir Serving build failed $command"
