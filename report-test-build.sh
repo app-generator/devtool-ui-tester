@@ -96,7 +96,7 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         if serve -s build & 
         then
             echo "Serving application with $command"
-            chromium-browser --headless --screenshot=$sshot_name "http://localhost:3000"
+            chromium-browser --headless --screenshot=../$sshot_name "http://localhost:3000"
 
             # not working    
             #echo "test body" | mail -s 'test subject' chirilovadrian@gmail.com 
