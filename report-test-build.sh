@@ -84,10 +84,10 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         echo "Serving application"
         if serve -s build & 
         then
-            echo "Serving applicatio with $command"
-            chromium-browser --headless --screenshot="${command}-node-${NODE_VERSION}-chrome.png" "http://localhost:3000"
+            echo "Serving application with $command"
+            chromium-browser --headless --screenshot="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png" "http://localhost:3000"
         else
-            print_message "error" "Serving build failed $command"
+            print_message "error" "$repoDir Serving build failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
             continue
         fi
