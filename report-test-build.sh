@@ -16,7 +16,7 @@ NODE_VERSION=$(node --version)
 
 declare -a NODE_COMMANDS=("npm") # Default ("yarn" "npm") 
 
-echo "Starting compatibily test"
+echo "Starting compatibily test" > reports/log.txt
 
 readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads the repositories from the json file 
 
