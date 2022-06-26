@@ -1,8 +1,5 @@
 {
     "repositories": [{
-            "repoURL": "https://github.com/app-generator/react-datta-able.git"
-        },
-        {
             "repoURL": "https://github.com/app-generator/react-berry-dashboard.git"
         }
     ]

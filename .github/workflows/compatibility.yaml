@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Give permissions for script to run
         run: |
-          sudo chmod +x build-deploy.sh
+          sudo chmod +x report-test-build.sh
       - name: Run script
-        run: ./build-deploy.sh
+        run: ./report-test-build.sh

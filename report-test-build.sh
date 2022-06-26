@@ -16,6 +16,8 @@ NODE_VERSION=$(node --version)
 
 declare -a NODE_COMMANDS=("yarn" "npm")
 
+SERVE_COMMANDS=$(serve -l 4000 -s .)
+
 
 readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads the repositories from the json file
 
@@ -60,13 +62,33 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             continue
         fi
       echo "Running build with $command"
-        if $command build; then
-            print_message "success" "Built $command"
+        if $command == "npm"; then
+            if $command build; then
+                print_message "success" "Built $command"
+            else
+                print_message "error" "Build failed $command"
+                print_message "error" "$PIPELINE_ERROR_MESSAGE"
+                continue
+            fi
+        else 
+            if $command build; then
+                print_message "success" "Built $command"
+            else
+                print_message "error" "Build failed $command"
+                print_message "error" "$PIPELINE_ERROR_MESSAGE"
+                continue
+            fi
+        fi
+
+        echo "Serving application"
+        if $command serve -s build &; then
+            chrome --headless --screenshot="chrome.png" "http://localhost:3000"
+            killall -9 node
         else
-            print_message "error" "Build failed $command"
+            print_message "error" "Serving build failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
             continue
-        fi    
     done
     cd ..
+    rm -r $(basename $repoURL .git)
  done 
