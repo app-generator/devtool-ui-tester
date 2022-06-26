@@ -16,15 +16,15 @@ NODE_VERSION=$(node --version)
 
 declare -a NODE_COMMANDS=("npm") # Default ("yarn" "npm") 
 
-echo "Starting compatibily test" > reports/log.txt
+echo "Starting compatibily test"
 
 readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads the repositories from the json file 
 
-echo '=============================' >> reports/log.txt
-echo '*** *** *** START *** *** ***' >> reports/log.txt
-echo '=============================' >> reports/log.txt
-
 for repo in "${repoArrays[@]}"; do
+
+    echo '=============================' >> reports/log.txt
+    echo '*** *** *** START *** *** ***' >> reports/log.txt
+    echo '=============================' >> reports/log.txt
 
    repoURL=$(echo $repo | jq '.repoURL' | sed 's/\"//g') # Cleaning the repoURL JSON output
    repoDir=$(basename $repoURL .git) # Getting the repo directory name

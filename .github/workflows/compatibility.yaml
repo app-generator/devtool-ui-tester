@@ -29,7 +29,7 @@ jobs:
         run: |
           sudo chmod +x report-test-build.sh
       - name: Run script
-        run: mkdir reports ; ./report-test-build.sh
+        run: mkdir reports ; > reports/log.txt ; ./report-test-build.sh
       - uses: actions/upload-artifact@v2
         with:
           path: reports
