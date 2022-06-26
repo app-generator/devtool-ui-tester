@@ -18,8 +18,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - Install Mutt
-        run: sudo apt-get install mailutils
+      - name: Install Mailutils
+        run: | 
+          sudo apt-get install mailutils
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
