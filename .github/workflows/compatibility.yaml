@@ -5,8 +5,8 @@ on:
     branches: [ main ]
 
 env:
-    process.env.CI : false
-    
+    CI: false
+
 jobs:
   compatibility-check:
     name: Compatibility Check
