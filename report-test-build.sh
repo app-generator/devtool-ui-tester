@@ -20,13 +20,17 @@ echo "Starting compatibily test"
 
 readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads the repositories from the json file
 
- for repo in "${repoArrays[@]}"; do
+for repo in "${repoArrays[@]}"; do
 
    repoURL=$(echo $repo | jq '.repoURL' | sed 's/\"//g') # Cleaning the repoURL JSON output
    repoDir=$(basename $repoURL .git) # Getting the repo directory name
 
-   #sshot_name="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png"
-   sshot_name="screen.png"
+   echo '*** *** *** *** *** *** *** *** ***'
+   echo " New Test: ${repoDir} ?/ ${command} / NodeJS.${NODE_VERSION}"
+   echo '*** *** *** *** *** *** *** *** ***'
+
+   sshot_name="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png"
+   #sshot_name="screen.png"
 
    echo "Cloning $repoURL"
    if git clone $repoURL; then
@@ -53,8 +57,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         else
             print_message "error" "Installation failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
-            exit 1
-            #continue
+            #exit 1
+            continue
         fi
       echo "Running test with $command"
         if CI=true $command test --passWithNoTests; then
@@ -62,8 +66,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         else
             print_message "error" "Tests failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
-            exit 1
-            #continue
+            #exit 1
+            continue
         fi
       echo "Running build with $command"
         if [ "$command" = "npm" ]; then
@@ -72,8 +76,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             else
                 print_message "error" "Build failed $command"
                 print_message "error" "$PIPELINE_ERROR_MESSAGE"
-                exit 1
-                #continue
+                #exit 1
+                continue
             fi
         else 
             if $command build; then
@@ -81,8 +85,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             else
                 print_message "error" "Build failed $command"
                 print_message "error" "$PIPELINE_ERROR_MESSAGE"
-                exit 1
-                #continue
+                #exit 1
+                continue
             fi
         fi
 
@@ -98,16 +102,16 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             echo "Serving application with $command"
             chromium-browser --headless --screenshot=$sshot_name "http://localhost:3000"
 
-            mv $sshot_name ../
-            
+            mv $sshot_name ../reports/
+
             # not working    
             #echo "test body" | mail -s 'test subject' chirilovadrian@gmail.com 
 
         else
             print_message "error" "$repoDir Serving build failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
-            exit 1
-            #continue
+            #exit 1
+            continue
         fi
         killall -9 node
     done
