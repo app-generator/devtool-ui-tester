@@ -25,7 +25,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
    repoURL=$(echo $repo | jq '.repoURL' | sed 's/\"//g') # Cleaning the repoURL JSON output
    repoDir=$(basename $repoURL .git) # Getting the repo directory name
 
-   sshot_name="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png"
+   #sshot_name="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png"
+   sshot_name="screen.png"
 
    echo "Cloning $repoURL"
    if git clone $repoURL; then
@@ -97,7 +98,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             echo "Serving application with $command"
             chromium-browser --headless --screenshot=$sshot_name "http://localhost:3000"
 
-            echo "test body" | mail -s 'test subject' chirilovadrian@gmail.com 
+            # not working    
+            #echo "test body" | mail -s 'test subject' chirilovadrian@gmail.com 
 
         else
             print_message "error" "$repoDir Serving build failed $command"

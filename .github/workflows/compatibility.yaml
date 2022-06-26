@@ -30,3 +30,8 @@ jobs:
           sudo chmod +x report-test-build.sh
       - name: Run script
         run: ./report-test-build.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          path: screen.png
+          name: screen.png
+        
