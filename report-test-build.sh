@@ -50,7 +50,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         else
             print_message "error" "Installation failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
-            continue
+            exit 1
+            #continue
         fi
       echo "Running test with $command"
         if CI=true $command test --passWithNoTests; then
@@ -58,7 +59,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         else
             print_message "error" "Tests failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
-            continue
+            exit 1
+            #continue
         fi
       echo "Running build with $command"
         if [ "$command" = "npm" ]; then
@@ -67,7 +69,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             else
                 print_message "error" "Build failed $command"
                 print_message "error" "$PIPELINE_ERROR_MESSAGE"
-                continue
+                exit 1
+                #continue
             fi
         else 
             if $command build; then
@@ -75,11 +78,16 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
             else
                 print_message "error" "Build failed $command"
                 print_message "error" "$PIPELINE_ERROR_MESSAGE"
-                continue
+                exit 1
+                #continue
             fi
         fi
 
-        yarn add serve
+        if [ "$command" = "npm" ]; then
+            npm i -g serve
+        else
+            yarn add serve
+        fi
 
         echo "Serving application"
         if serve -s build & 
@@ -89,7 +97,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         else
             print_message "error" "$repoDir Serving build failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
-            continue
+            exit 1
+            #continue
         fi
         killall -9 node
     done
