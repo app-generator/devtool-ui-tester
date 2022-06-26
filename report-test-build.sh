@@ -14,7 +14,7 @@ print_message() {
 
 NODE_VERSION=$(node --version)
 
-declare -a NODE_COMMANDS=("yarn" "npm")
+declare -a NODE_COMMANDS=("npm") # Default ("yarn" "npm") 
 
 echo "Starting compatibily test"
 
