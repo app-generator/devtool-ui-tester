@@ -25,6 +25,8 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
    repoURL=$(echo $repo | jq '.repoURL' | sed 's/\"//g') # Cleaning the repoURL JSON output
    repoDir=$(basename $repoURL .git) # Getting the repo directory name
 
+   sshot_name="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png"
+
    echo "Cloning $repoURL"
    if git clone $repoURL; then
      echo "Cloned $repoURL"
@@ -93,7 +95,10 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
         if serve -s build & 
         then
             echo "Serving application with $command"
-            chromium-browser --headless --screenshot="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png" "http://localhost:3000"
+            chromium-browser --headless --screenshot=$sshot_name "http://localhost:3000"
+
+            echo "GH report OK (body)" | mail –s "React Report" -A $sshot_name chirilovadrian@gmail.com
+
         else
             print_message "error" "$repoDir Serving build failed $command"
             print_message "error" "$PIPELINE_ERROR_MESSAGE"
