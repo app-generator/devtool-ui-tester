@@ -75,11 +75,11 @@ for repo in "${repoArrays[@]}"; do
       report_file=../reports/"${repoDir}-${command}-node-${NODE_VERSION}-STATUS_NA.log"
       report_sshot="${repoDir}-${command}-node-${NODE_VERSION}-sshot.png"
 
-      echo " x) TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
-      echo ' '                                                              >> $report_file
+      echo "x) TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
+      echo ' '                                                             >> $report_file
 
-      save_report $report_file OK 
-      exit 0
+      save_report $report_file ERR 
+      exit 1
 
       PIPELINE_ERROR_MESSAGE="Node version $NODE_VERSION, $command -> failed"
       NPM_STATUS=False
