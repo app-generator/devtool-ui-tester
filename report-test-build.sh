@@ -30,7 +30,10 @@ save_report() {
 
     output_file="${report_file/STATUS_NA/"STATUS_$status"}"
     mv $report_file $output_file
-}
+
+    # Update master report file
+    echo "$status - " "${output_file/../reports/""}" >> ../reports/report.txt
+} 
 
 NODE_VERSION=$(node --version)
 
@@ -39,6 +42,9 @@ declare -a NODE_COMMANDS=("npm") # Default ("yarn" "npm")
 echo "Starting compatibily test"
 
 readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads the repositories from the json file 
+
+# Create master reports file 
+> ../reports/report.txt
 
 for repo in "${repoArrays[@]}"; do
 
@@ -92,16 +98,18 @@ for repo in "${repoArrays[@]}"; do
             echo " > error Installation failed $command"  >> $report_file
             echo " > error $PIPELINE_ERROR_MESSAGE"       >> $report_file 
             save_report $report_file ERR
-            exit 1
+            #exit 1
+            continue
         fi
       echo " > Running test with $command"
         if CI=true $command test --passWithNoTests; then
-            echo " >  success Tests passed $command"      >> $report_file
+            echo " > success Tests passed $command"      >> $report_file
         else
             echo " > error Tests failed $command"         >> $report_file
             echo " > error $PIPELINE_ERROR_MESSAGE"       >> $report_file 
             save_report $report_file ERR           
-            exit 1
+            #exit 1
+            continue
         fi
       echo "Running build with $command"
         if [ "$command" = "npm" ]; then
@@ -111,7 +119,8 @@ for repo in "${repoArrays[@]}"; do
                 echo " > error Build failed $command"     >> $report_file  
                 echo " > error $PIPELINE_ERROR_MESSAGE"   >> $report_file 
                 save_report $report_file ERR
-                exit 1
+                #exit 1
+                continue
             fi
         else 
             if $command build; then
@@ -120,7 +129,8 @@ for repo in "${repoArrays[@]}"; do
                 echo " > error Build failed $command"     >> $report_file 
                 echo " > error $PIPELINE_ERROR_MESSAGE"   >> $report_file 
                 save_report $report_file ERR
-                exit 1
+                #exit 1
+                continue
             fi
         fi
 
@@ -147,7 +157,8 @@ for repo in "${repoArrays[@]}"; do
             echo " > error $repoDir Starting APP failed $command" >> $report_file   
             echo " > error $PIPELINE_ERROR_MESSAGE"               >> $report_file 
             save_report $report_file ERR
-            exit 1
+            #exit 1
+            continue
         fi
 
         killall -9 node
