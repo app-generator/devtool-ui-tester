@@ -37,7 +37,7 @@ save_report() {
 
 NODE_VERSION=$(node --version)
 
-declare -a COMPILERS=( "node" "yarn" ) # Default ("yarn" "npm") 
+declare -a COMPILERS=( "node" ) # Default ("yarn" "npm") 
 
 echo "Starting compatibily test"
 
@@ -56,6 +56,9 @@ for repo in "${repoArrays[@]}"; do
       
         report_file=../reports/"${repoDir}-${command}-node-${NODE_VERSION}-STATUS_NA.log"
         report_sshot="${repoDir}-${command}-node-${NODE_VERSION}-sshot.png"
+
+        # File creation    
+        echo ' ' > $report_file
 
         echo "START TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
         echo ' '                                                                >> $report_file
