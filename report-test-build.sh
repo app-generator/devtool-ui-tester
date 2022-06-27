@@ -43,9 +43,6 @@ echo "Starting compatibily test"
 
 readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads the repositories from the json file 
 
-# Create master reports file 
-> ../reports/report.txt
-
 for repo in "${repoArrays[@]}"; do
 
    #echo '=============================' >> reports/log.txt
