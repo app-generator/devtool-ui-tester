@@ -34,7 +34,7 @@ save_report() {
 
 NODE_VERSION=$(node --version)
 
-declare -a COMPILERS=( "npm" ) # "npm" "yarn"
+declare -a COMPILERS=( "yarn" ) # "npm" "yarn"
 
 echo "Starting compatibily test"
 
