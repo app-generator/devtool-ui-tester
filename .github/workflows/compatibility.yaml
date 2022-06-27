@@ -18,9 +18,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Install Mailutils
-        run: | 
-          sudo apt-get install mailutils
+      - name: Create reports DIR
+        run: mkdir reports ; > reports/report.txt 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -29,7 +28,7 @@ jobs:
         run: |
           sudo chmod +x report-test-build.sh
       - name: Run script
-        run: mkdir reports ; > reports/report.txt ; ./report-test-build.sh
+        run: ./report-test-build.sh
       - uses: actions/upload-artifact@v2
         if: always()
         with:

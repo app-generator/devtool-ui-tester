@@ -71,90 +71,78 @@ for repo in "${repoArrays[@]}"; do
     
    # Using node commands: npm and yarn
 
-   for command in "${NODE_COMMANDS[@]}"; do
+    for command in "${NODE_COMMANDS[@]}"; do
 
-      # Build SSHot and report file name
+        # Build SSHot and report file name
       
-      report_file=../reports/"${repoDir}-${command}-node-${NODE_VERSION}-STATUS_NA.log"
-      report_sshot="${repoDir}-${command}-node-${NODE_VERSION}-sshot.png"
+        report_file=../reports/"${repoDir}-${command}-node-${NODE_VERSION}-STATUS_NA.log"
+        report_sshot="${repoDir}-${command}-node-${NODE_VERSION}-sshot.png"
 
-      echo "x) TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
-      echo ' '                                                             >> $report_file
+        echo "START TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
+        echo ' '                                                             >> $report_file
 
-      # save_report $report_file ERR 
-      # exit 1
+        NPM_STATUS=False
+        YARN_STATUS=False
 
-      PIPELINE_ERROR_MESSAGE="Node version $NODE_VERSION, $command -> failed"
-      NPM_STATUS=False
-      YARN_STATUS=False
-
-      echo "Installing dependencies with $command"
+        echo " > [$command] Install modules "
         if $command install; then
-            echo " > success Installed $command"          >> $report_file
+            echo "   ...ok" >> $report_file
         else
-            echo " > error Installation failed $command"  >> $report_file
-            echo " > error $PIPELINE_ERROR_MESSAGE"       >> $report_file 
+            echo "   ...err" >> $report_file
             save_report $report_file ERR
-            #exit 1
             continue
         fi
-      echo " > Running test with $command"
+      
+        echo " > [$command] Install modules "
         if CI=true $command test --passWithNoTests; then
-            echo " > success Tests passed $command"      >> $report_file
+            echo "   ...ok" >> $report_file
         else
-            echo " > error Tests failed $command"         >> $report_file
-            echo " > error $PIPELINE_ERROR_MESSAGE"       >> $report_file 
+            echo "   ...err" >> $report_file
             save_report $report_file ERR           
-            #exit 1
             continue
         fi
-      echo "Running build with $command"
+
+        echo " > [$command] Compile Sources "
         if [ "$command" = "npm" ]; then
             if $command run build; then
-                echo " > success Built $command"          >> $report_file
+                echo "   ...ok" >> $report_file
             else
-                echo " > error Build failed $command"     >> $report_file  
-                echo " > error $PIPELINE_ERROR_MESSAGE"   >> $report_file 
+                echo "   ...err" >> $report_file
                 save_report $report_file ERR
-                #exit 1
                 continue
             fi
         else 
             if $command build; then
-                echo " > success Built $command"          >> $report_file 
+                echo "   ...ok" >> $report_file
             else
-                echo " > error Build failed $command"     >> $report_file 
-                echo " > error $PIPELINE_ERROR_MESSAGE"   >> $report_file 
+                echo "   ...err" >> $report_file
                 save_report $report_file ERR
-                #exit 1
                 continue
             fi
         fi
 
+        echo " > Install `serve` utility "
         if [ "$command" = "npm" ]; then
             npm i -g serve
         else
             yarn add serve
         fi
 
-        echo "Starting APP in browser"                            >> $report_file 
+        echo " > [$command] Starting APP in browser" >> $report_file 
         if serve -s build & 
         then
-            echo " > Serving application with $command"           >> $report_file
+            echo "   ...ok" >> $report_file
+
+            echo " > Saving SSHot -> $report_sshot" >> $report_file
 
             chromium-browser --headless --screenshot=$report_sshot "http://localhost:3000"
             mv $report_sshot ../reports/
 
-            echo " > Saving SSHot -> $report_sshot"               >> $report_file
-
-            # not working    
-            #echo "test body" | mail -s 'test subject' chirilovadrian@gmail.com 
+            echo "   ...ok" >> $report_file
 
         else
-            echo " > error $repoDir Starting APP failed $command" >> $report_file   
-            echo " > error $PIPELINE_ERROR_MESSAGE"               >> $report_file 
+            echo "   ...err" >> $report_file
             save_report $report_file ERR
-            #exit 1
             continue
         fi
 
