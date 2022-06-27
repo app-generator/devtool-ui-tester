@@ -78,8 +78,8 @@ for repo in "${repoArrays[@]}"; do
       echo "x) TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
       echo ' '                                                             >> $report_file
 
-      save_report $report_file ERR 
-      exit 1
+      # save_report $report_file ERR 
+      # exit 1
 
       PIPELINE_ERROR_MESSAGE="Node version $NODE_VERSION, $command -> failed"
       NPM_STATUS=False
@@ -87,48 +87,40 @@ for repo in "${repoArrays[@]}"; do
 
       echo "Installing dependencies with $command"
         if $command install; then
-            echo " > success Installed $command"          # >> ../reports/log.txt
+            echo " > success Installed $command"          >> $report_file
         else
-            echo " > error Installation failed $command"  # >> ../reports/log.txt
-            echo " > error $PIPELINE_ERROR_MESSAGE"       # >> ../reports/log.txt 
-            echo ' '                                      # >> ../reports/log.txt
-            echo "END test, STATUS= FAILED"               # >> ../reports/log.txt
-            #exit 1
-            continue
+            echo " > error Installation failed $command"  >> $report_file
+            echo " > error $PIPELINE_ERROR_MESSAGE"       >> $report_file 
+            save_report $report_file ERR
+            exit 1
         fi
       echo " > Running test with $command"
         if CI=true $command test --passWithNoTests; then
-            echo " >  success Tests passed $command"      # >> ../reports/log.txt
+            echo " >  success Tests passed $command"      >> $report_file
         else
-            echo " > error Tests failed $command"         # >> ../reports/log.txt
-            echo " > error $PIPELINE_ERROR_MESSAGE"       # >> ../reports/log.txt 
-            echo ' '                                      # >> ../reports/log.txt
-            echo "END test, STATUS= FAILED"               # >> ../reports/log.txt            
-            #exit 1
-            continue
+            echo " > error Tests failed $command"         >> $report_file
+            echo " > error $PIPELINE_ERROR_MESSAGE"       >> $report_file 
+            save_report $report_file ERR           
+            exit 1
         fi
       echo "Running build with $command"
         if [ "$command" = "npm" ]; then
             if $command run build; then
-                echo " > success Built $command"          # >> ../reports/log.txt 
+                echo " > success Built $command"          >> $report_file
             else
-                echo " > error Build failed $command"     # >> ../reports/log.txt  
-                echo " > error $PIPELINE_ERROR_MESSAGE"   # >> ../reports/log.txt 
-                echo ' '                                  # >> ../reports/log.txt
-                echo " > END test, STATUS= FAILED"        # >> ../reports/log.txt 
-                #exit 1
-                continue
+                echo " > error Build failed $command"     >> $report_file  
+                echo " > error $PIPELINE_ERROR_MESSAGE"   >> $report_file 
+                save_report $report_file ERR
+                exit 1
             fi
         else 
             if $command build; then
-                echo " > success Built $command"          # >> ../reports/log.txt 
+                echo " > success Built $command"          >> $report_file 
             else
-                echo " > error Build failed $command"     # >> ../reports/log.txt 
-                echo " > error $PIPELINE_ERROR_MESSAGE"   # >> ../reports/log.txt 
-                echo ' '                                  # >> ../reports/log.txt
-                echo " > END test, STATUS= FAILED"        # >> ../reports/log.txt
-                #exit 1
-                continue
+                echo " > error Build failed $command"     >> $report_file 
+                echo " > error $PIPELINE_ERROR_MESSAGE"   >> $report_file 
+                save_report $report_file ERR
+                exit 1
             fi
         fi
 
@@ -138,30 +130,29 @@ for repo in "${repoArrays[@]}"; do
             yarn add serve
         fi
 
-        echo "Starting APP in browser"                            # >> ../reports/log.txt 
+        echo "Starting APP in browser"                            >> $report_file 
         if serve -s build & 
         then
-            echo " > Serving application with $command"           # >> reports/log.txt
+            echo " > Serving application with $command"           >> $report_file
 
             chromium-browser --headless --screenshot=$report_sshot "http://localhost:3000"
             mv $report_sshot ../reports/
 
-            echo " > Saving SSHot -> $report_sshot"                 # >> ../reports/log.txt
+            echo " > Saving SSHot -> $report_sshot"               >> $report_file
 
             # not working    
             #echo "test body" | mail -s 'test subject' chirilovadrian@gmail.com 
 
         else
-            echo " > error $repoDir Starting APP failed $command" # >> ../reports/log.txt   
-            echo " > error $PIPELINE_ERROR_MESSAGE"               # >> ../reports/log.txt 
-            echo ' '                                              # >> ../reports/log.txt
-            echo " > END test, STATUS = FAILED"                   # >> ../reports/log.txt
-            #exit 1
-            continue
+            echo " > error $repoDir Starting APP failed $command" >> $report_file   
+            echo " > error $PIPELINE_ERROR_MESSAGE"               >> $report_file 
+            save_report $report_file ERR
+            exit 1
         fi
 
         killall -9 node
-        echo "END test, STATUS= OK"                               # >> ../reports/log.txt        
+
+        save_report $report_file OK        
 
     done
 
@@ -169,3 +160,6 @@ for repo in "${repoArrays[@]}"; do
     cd ..
 
  done 
+
+ # All good ..
+ exit 0
