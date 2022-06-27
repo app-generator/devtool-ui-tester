@@ -34,7 +34,7 @@ save_report() {
 
 NODE_VERSION=$(node --version)
 
-declare -a COMPILERS=( "yarn" ) # "npm" 
+declare -a COMPILERS=( "yarn" "npm" ) # "npm" 
 
 echo "Starting compatibily test"
 
@@ -116,7 +116,7 @@ for repo in "${repoArrays[@]}"; do
             fi
         fi
 
-        echo " > Install `serve` utility "     >> $report_BASE/$report_file
+        echo " > Install serve utility "     >> $report_BASE/$report_file
         if [ "$command" = "npm" ]; then
             npm i -g serve
             echo "   ...ok (via NPM)"          >> $report_BASE/$report_file
