@@ -16,6 +16,18 @@ save_report() {
 
     report_file=$1
     status=$2
+
+    echo ' ' >> $report_file
+
+    if [ "$status" = "OK" ]; then 
+
+        echo "END tests, STATUS=OK" >> $report_file
+
+    else
+
+        echo "END tests, STATUS=ERR" >> $report_file
+    fi
+
     output_file="${report_file/STATUS_NA/"STATUS_$status"}"
     mv $report_file $output_file
 }
@@ -63,12 +75,11 @@ for repo in "${repoArrays[@]}"; do
       report_file=../reports/"${repoDir}-${command}-node-${NODE_VERSION}-STATUS_NA.log"
       report_sshot="${repoDir}-${command}-node-${NODE_VERSION}-sshot.png"
 
-      echo ' -> ${command} TESTS'                                      >> $report_file
-      echo " Testing ${repoDir} / ${command} / NodeJS.${NODE_VERSION}" >> $report_file 
-      echo ' '                                                         >> $report_file
+      echo " x) TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
+      echo ' '                                                              >> $report_file
 
       save_report $report_file OK 
-      exit 0  
+      exit 0
 
       PIPELINE_ERROR_MESSAGE="Node version $NODE_VERSION, $command -> failed"
       NPM_STATUS=False
