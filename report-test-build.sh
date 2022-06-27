@@ -37,7 +37,7 @@ save_report() {
 
 NODE_VERSION=$(node --version)
 
-declare -a NODE_COMMANDS=( "yarn" ) # Default ("yarn" "npm") 
+declare -a COMPILERS=( "node" "yarn" ) # Default ("yarn" "npm") 
 
 echo "Starting compatibily test"
 
@@ -45,33 +45,12 @@ readarray -t repoArrays < <(jq -c '.repositories[]' repositories.json) # Reads t
 
 for repo in "${repoArrays[@]}"; do
 
-   #echo '=============================' >> reports/log.txt
-   #echo '*** *** *** START *** *** ***' >> reports/log.txt
-   #echo ' ' >> reports/log.txt
+    repoURL=$(echo $repo | jq '.repoURL' | sed 's/\"//g') # Cleaning the repoURL JSON output
+    repoDir=$(basename $repoURL .git) # Getting the repo directory name
 
-   repoURL=$(echo $repo | jq '.repoURL' | sed 's/\"//g') # Cleaning the repoURL JSON output
-   repoDir=$(basename $repoURL .git) # Getting the repo directory name
+    # Using node commands: npm and yarn
 
-   #sshot_name="${repoDir}-${command}-node-${NODE_VERSION}-chrome.png"
-   #sshot_name="screen.png"
-
-   echo "Cloning $repoURL"
-   if git clone $repoURL; then
-     echo "Cloned $repoURL"             # >> reports/log.txt
-   else
-     echo "Failed to clone $repoURL"    # >> reports/log.txt
-     echo ' '                           # >> reports/log.txt
-     echo "END test, STATUS= FAILED"    # >> reports/log.txt
-     exit 1
-     #continue
-   fi
-
-   # Accessing the cloned repository directory
-   cd $(basename $repoURL .git)
-    
-   # Using node commands: npm and yarn
-
-    for command in "${NODE_COMMANDS[@]}"; do
+    for command in "${COMPILERS[@]}"; do
 
         # Build SSHot and report file name
       
@@ -81,8 +60,22 @@ for repo in "${repoArrays[@]}"; do
         echo "START TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
         echo ' '                                                                >> $report_file
 
-        NPM_STATUS=False
-        YARN_STATUS=False
+        # Force removal for each compiler
+        echo "  > Force REMOVAL $repoURL" >> $report_file
+        rm -rf $repoURL
+        echo "   ...ok" >> $report_file
+
+        echo "  > Cloning $repoURL" >> $report_file   
+        if git clone $repoURL; then
+            echo "   ...ok" >> $report_file
+        else
+            echo "   ...err" >> $report_file
+            save_report $report_file ERR
+            exit 1
+        fi
+
+        # Accessing the cloned repository directory
+        cd $(basename $repoURL .git)
 
         echo " > [$command] Install modules " >> $report_file
         if $command install; then
@@ -148,12 +141,12 @@ for repo in "${repoArrays[@]}"; do
 
         killall -9 node
 
-        save_report $report_file OK        
+        save_report $report_file OK    
+
+        # Iterate on the next REPO    
+        cd ..    
 
     done
-
-    # Iterate on the next REPO    
-    cd ..
 
  done 
 
