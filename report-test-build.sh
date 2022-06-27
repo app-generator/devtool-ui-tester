@@ -88,14 +88,15 @@ for repo in "${repoArrays[@]}"; do
             continue
         fi
       
-        echo " > [$command] Running tests "   >> $report_BASE/$report_file
-        if CI=true $command test --passWithNoTests; then
-            echo "   ...ok"                   >> $report_BASE/$report_file
-        else
-            echo "   ...err"                  >> $report_BASE/$report_file
-            save_report $report_BASE/$report_file ERR           
-            continue
-        fi
+        # Disable product tests
+        #echo " > [$command] Running tests "   >> $report_BASE/$report_file
+        #if CI=true $command test --passWithNoTests; then
+        #    echo "   ...ok"                   >> $report_BASE/$report_file
+        #else
+        #    echo "   ...err"                  >> $report_BASE/$report_file
+        #    save_report $report_BASE/$report_file ERR           
+        #    continue
+        #fi
 
         echo " > [$command] Compile Sources " >> $report_BASE/$report_file
         if [ "$command" = "npm" ]; then
