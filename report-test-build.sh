@@ -37,7 +37,7 @@ save_report() {
 
 NODE_VERSION=$(node --version)
 
-declare -a NODE_COMMANDS=( "npm" ) # Default ("yarn" "npm") 
+declare -a NODE_COMMANDS=( "yarn" ) # Default ("yarn" "npm") 
 
 echo "Starting compatibily test"
 
