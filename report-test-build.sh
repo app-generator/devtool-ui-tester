@@ -30,9 +30,6 @@ save_report() {
 
     output_file="${report_file/STATUS_NA/"STATUS_$status"}"
     mv $report_file $output_file
-
-    # Update master report file
-    # echo "$status - " "${output_file/../reports/""}" >> ../reports/report.txt
 } 
 
 NODE_VERSION=$(node --version)
@@ -54,65 +51,65 @@ for repo in "${repoArrays[@]}"; do
 
         # Build SSHot and report file name
       
-        report_file=../reports/"${repoDir}-${command}-node-${NODE_VERSION}-STATUS_NA.log"
+        report_file="${repoDir}-${command}-node-${NODE_VERSION}-STATUS_NA.log"
         report_sshot="${repoDir}-${command}-node-${NODE_VERSION}-sshot.png"
 
         # File creation    
-        echo ' ' > $report_file
+        echo ' ' > ./reports/$report_file
 
-        echo "START TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
-        echo ' '                                                                >> $report_file
+        echo "START TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> ./reports/$report_file 
+        echo ' '                                                                >> ./reports/$report_file
 
         # Force removal for each compiler
-        echo "  > Force REMOVAL $repoURL" >> $report_file
+        echo "  > Force REMOVAL $repoURL" >> ./reports/$report_file
         rm -rf $repoURL
-        echo "   ...ok" >> $report_file
+        echo "   ...ok" >> ./reports/$report_file
 
-        echo "  > Cloning $repoURL" >> $report_file   
+        echo "  > Cloning $repoURL" >> ./reports/$report_file   
         if git clone $repoURL; then
-            echo "   ...ok" >> $report_file
+            echo "   ...ok" >> ./reports/$report_file
         else
-            echo "   ...err" >> $report_file
-            save_report $report_file ERR
+            echo "   ...err" >> ./reports/$report_file
+            save_report ./reports/$report_file ERR
             exit 1
         fi
 
-        # Accessing the cloned repository directory
+        # !!! NEW Directory !!! 
         cd $(basename $repoURL .git)
 
-        echo " > [$command] Install modules " >> $report_file
+        echo " > [$command] Install modules " >> ../reports/$report_file
         if $command install; then
-            echo "   ...ok" >> $report_file
+            echo "   ...ok"  >> ../reports/$report_file
         else
-            echo "   ...err" >> $report_file
-            save_report $report_file ERR
+            echo "   ...err" >> ../reports/$report_file
+            save_report ../reports/$report_file ERR
             continue
         fi
       
-        echo " > [$command] Running tests " >> $report_file
+        echo " > [$command] Running tests " >> ../reports/$report_file
         if CI=true $command test --passWithNoTests; then
-            echo "   ...ok" >> $report_file
+            echo "   ...ok"  >> ../reports/$report_file
         else
-            echo "   ...err" >> $report_file
-            save_report $report_file ERR           
+            echo "   ...err" >> ../reports/$report_file
+            save_report ../reports/$report_file ERR           
             continue
         fi
 
         echo " > [$command] Compile Sources " >> $report_file
         if [ "$command" = "npm" ]; then
             if $command run build; then
-                echo "   ...ok" >> $report_file
+                echo "   ...ok"  >> ../reports/$report_file
             else
-                echo "   ...err" >> $report_file
-                save_report $report_file ERR
+                echo "   ...err" >> ../reports/$report_file
+                save_report ../reports/$report_file ERR
                 continue
             fi
         else 
             if $command build; then
-                echo "   ...ok" >> $report_file
+                echo "   ...ok"  >> ../reports/$report_file
             else
-                echo "   ...err" >> $report_file
-                save_report $report_file ERR
+                echo "   ...err" >> ../reports/$report_file
+                save_report ../reports/$report_file ERR
                 continue
             fi
         fi
@@ -120,25 +117,27 @@ for repo in "${repoArrays[@]}"; do
         echo " > Install `serve` utility " >> $report_file
         if [ "$command" = "npm" ]; then
             npm i -g serve
+            echo "   ...ok (via NPM)"  >> ../reports/$report_file
         else
-            yarn add serve
+            yarn global add serve
+            echo "   ...ok (via YARN)" >> ../reports/$report_file
         fi
 
         echo " > [$command] Starting APP in browser" >> $report_file 
         if serve -s build & 
         then
-            echo "   ...ok" >> $report_file
+            echo "   ...ok" >> ../reports/$report_file
 
-            echo " > Saving SSHot -> $report_sshot" >> $report_file
+            echo " > Saving SSHot -> $report_sshot" >> ../reports/$report_file
 
             chromium-browser --headless --screenshot=$report_sshot "http://localhost:3000"
             mv $report_sshot ../reports/
 
-            echo "   ...ok" >> $report_file
+            echo "   ...ok" >> ../reports/$report_file
 
         else
-            echo "   ...err" >> $report_file
-            save_report $report_file ERR
+            echo "   ...err" >> ../reports/$report_file
+            save_report ../reports/$report_file ERR
             continue
         fi
 
