@@ -34,7 +34,7 @@ save_report() {
 
 NODE_VERSION=$(node --version)
 
-declare -a COMPILERS=( "npm" ) # Default ("yarn" "npm") 
+declare -a COMPILERS=( "npm" "yarn" )
 
 echo "Starting compatibily test"
 
@@ -62,11 +62,11 @@ for repo in "${repoArrays[@]}"; do
         echo ' '                                                                >> $report_BASE/$report_file
 
         # Force removal for each compiler
-        echo "  > Force REMOVAL $repoDir"    >> $report_BASE/$report_file
+        echo " > Force REMOVAL $repoDir"    >> $report_BASE/$report_file
         rm -rf $repoDir
         echo "   ...ok"                      >> $report_BASE/$report_file
 
-        echo "  > Cloning $repoURL"          >> $report_BASE/$report_file   
+        echo " > Cloning $repoURL"          >> $report_BASE/$report_file   
         if git clone $repoURL; then
             echo "   ...ok"                  >> $report_BASE/$report_file
         else
