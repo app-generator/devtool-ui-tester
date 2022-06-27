@@ -32,7 +32,7 @@ save_report() {
     mv $report_file $output_file
 
     # Update master report file
-    echo "$status - " "${output_file/../reports/""}" >> ../reports/report.txt
+    # echo "$status - " "${output_file/../reports/""}" >> ../reports/report.txt
 } 
 
 NODE_VERSION=$(node --version)
@@ -79,12 +79,12 @@ for repo in "${repoArrays[@]}"; do
         report_sshot="${repoDir}-${command}-node-${NODE_VERSION}-sshot.png"
 
         echo "START TESTS for ${repoDir} / ${command} / NodeJS-${NODE_VERSION}" >> $report_file 
-        echo ' '                                                             >> $report_file
+        echo ' '                                                                >> $report_file
 
         NPM_STATUS=False
         YARN_STATUS=False
 
-        echo " > [$command] Install modules "
+        echo " > [$command] Install modules " >> $report_file
         if $command install; then
             echo "   ...ok" >> $report_file
         else
@@ -93,7 +93,7 @@ for repo in "${repoArrays[@]}"; do
             continue
         fi
       
-        echo " > [$command] Install modules "
+        echo " > [$command] Running tests " >> $report_file
         if CI=true $command test --passWithNoTests; then
             echo "   ...ok" >> $report_file
         else
@@ -102,7 +102,7 @@ for repo in "${repoArrays[@]}"; do
             continue
         fi
 
-        echo " > [$command] Compile Sources "
+        echo " > [$command] Compile Sources " >> $report_file
         if [ "$command" = "npm" ]; then
             if $command run build; then
                 echo "   ...ok" >> $report_file
@@ -121,7 +121,7 @@ for repo in "${repoArrays[@]}"; do
             fi
         fi
 
-        echo " > Install `serve` utility "
+        echo " > Install `serve` utility " >> $report_file
         if [ "$command" = "npm" ]; then
             npm i -g serve
         else
