@@ -1,5 +1,8 @@
 {
     "repositories": [{
+            "repoURL": "https://github.com/app-generator/react-soft-ui-dashboard.git"
+        },
+        {
             "repoURL": "https://github.com/app-generator/react-horizon-ui-chakra.git"
         }
     ]
