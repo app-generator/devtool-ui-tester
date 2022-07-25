@@ -1,6 +1,10 @@
-# devtool-ui-tester
+# DevTool UI Tester
 
-This repository is a provides a simple way to ensure compatibilty of React projects accross different Node environments.
+This [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibilty of React projects accross different Node environments.
+
+> Note: Closed-source tool, free for AppSeed [PRO Users](https://appseed.us/terms/)
+
+<br />
 
 ## Installation
 
@@ -23,6 +27,8 @@ To add a new repository, add a new entry to the `repositories.json` file.
 }
 ```
 
+<br />
+
 ## Automated Testing using GH Actions
 
 The ui test tool can be run using GH actions. Using Github Actions, you benefit from parallel builds on different nodejs environment.
@@ -40,17 +46,7 @@ jobs:
  ...
 ```
 
-## Manual Testing
-The test can also be run locally. However, the default environment will be the one installed on your machine. 
-First, clone the repository.
-```shell
-git clone https://github.com/app-generator/devtool-ui-tester.git
-```
-After that, give execution permission to the `report-test-build.sh` file. 
-```shell
-sudo chmod +x report-test-build.sh
-```
-And then run the script.
-```shell
-./report-test-build.sh
-```
+<br />
+
+--- 
+DevTool UI Tester - provided by AppSeed
