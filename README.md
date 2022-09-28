@@ -1,8 +1,6 @@
 # DevTool UI Tester
 
-This [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibilty of React projects accross different Node environments.
-
-> Note: Closed-source tool, free for AppSeed [PRO Users](https://appseed.us/terms/)
+This [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibilty of React projects accross different Node environments provided by [AppSeed](https://appseed.us/)
 
 <br />
 
@@ -49,4 +47,4 @@ jobs:
 <br />
 
 --- 
-DevTool UI Tester - provided by AppSeed
+DevTool UI Tester - Open-Source developer tool provided by [AppSeed](https://appseed.us/)
