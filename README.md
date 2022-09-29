@@ -8,7 +8,7 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 ## ✨ How to use it
 
-- 👉 [Fork the project](https://github.com/app-generator/devtool-ui-tester/fork) 
+- 👉 [Fork the project](https://github.com/app-generator/devtool-ui-tester/generate) 
 - 👉 Edit [repositories.json](./repositories.json) and add your projects to test
 - 👉 Edit [compatibility.yaml](https://github.com/app-generator/devtool-ui-tester/blob/main/.github/workflows/compatibility.yaml#L18) and specify the Node verison
   - multiple values supported: `node-version: [16.x, 18.x]`
