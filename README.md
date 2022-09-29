@@ -1,12 +1,21 @@
 # DevTool UI Tester
 
-This [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibilty of React projects accross different Node environments using Yarn or NPM.
+This [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibilty of **React Projects** accross different Node environments using `Yarn` or `NPM`.
 
-> For [support](https://appseed.us/support/) and PR requests please access [AppSeed](https://appseed.us).
+> **Product Features**
+
+- ✅ Supports `multiple React Kits` as input
+- ✅ `Multiple NodeJS versions`
+- ✅ Builders: `Yarn`, `NPM`, or both
+- ✅ `Report provided` for each test combination
+- ✅ `MIT license`
+- ✅ Free [support](https://appseed.us/support/) provided by [AppSeed](https://appseed.us)
 
 <br />
 
 ## ✨ How it works
+
+> Complete presentation: how to test external kits and fork the project
 
 https://user-images.githubusercontent.com/51070104/192981712-8d041a69-f58c-47da-83ea-6166181284cc.mp4
 
