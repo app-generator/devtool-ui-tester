@@ -133,7 +133,7 @@ for repo in "${repoArrays[@]}"; do
 
             echo " > Saving SSHot -> $report_sshot" >> $report_BASE/$report_file
 
-            chromium-browser --headless --screenshot=$report_sshot "http://localhost:3000" --virtual-time-budget=10000 --run-all-compositor-stages-before-draw
+            chromium-browser --headless --screenshot=$report_sshot "http://localhost:3000" 
             mv $report_sshot ../reports/
 
             echo "   ...ok" >> $report_BASE/$report_file
