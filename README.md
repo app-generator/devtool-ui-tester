@@ -1,6 +1,6 @@
 # DevTool UI Tester
 
-Simple [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibility of **React Projects** across different Node environments using `Yarn` or `NPM` using **GitHub Actions**. 
+Open-source [developer tool](https://appseed.us/developer-tools/) that provides a simple way to ensure compatibility of **React Projects** across different Node environments using `Yarn` or `NPM` using **GitHub Actions**. 
 
 > **Product Features**
 
