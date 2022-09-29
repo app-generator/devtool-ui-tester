@@ -6,9 +6,7 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 <br />
 
-## Video Presentation
-
-<br />
+## ✨ How it works
 
 https://user-images.githubusercontent.com/51070104/192981004-3f5751fa-9a2b-4d5f-a419-a1620c18e79c.mp4
 
