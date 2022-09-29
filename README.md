@@ -8,7 +8,7 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 ## ✨ How it works
 
-https://user-images.githubusercontent.com/51070104/192981004-3f5751fa-9a2b-4d5f-a419-a1620c18e79c.mp4
+https://user-images.githubusercontent.com/51070104/192981712-8d041a69-f58c-47da-83ea-6166181284cc.mp4
 
 <br />
 
