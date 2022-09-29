@@ -75,4 +75,4 @@ jobs:
 <br />
 
 --- 
-DevTool UI Tester - Open-Source developer tool provided by [AppSeed](https://appseed.us/)
+[DevTool UI Tester](https://appseed.us/developer-tools/) - Open-Source developer tool provided by [AppSeed](https://appseed.us/)
