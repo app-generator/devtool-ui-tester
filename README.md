@@ -4,18 +4,18 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 <br />
 
-## How to use it
+## ✨ How to use it
 
-- Fork the project
-- Edit `repositories.json` and add your repositories to test the build
-- Edit [compatibility.yaml](https://github.com/app-generator/devtool-ui-tester/blob/main/.github/workflows/compatibility.yaml#L18) and specify the Node verison
+- 👉 Fork the project
+- 👉 Edit `repositories.json` and add your repositories to test the build
+- 👉 Edit [compatibility.yaml](https://github.com/app-generator/devtool-ui-tester/blob/main/.github/workflows/compatibility.yaml#L18) and specify the Node verison
   - multiple values supported: `node-version: [16.x, 18.x]`
-- Edit the builder in [report-test-build.sh](https://github.com/app-generator/devtool-ui-tester/blob/b6cbd7ae0ce9557151195b5242c6ecc491354b0b/report-test-build.sh#L37)
+- 👉 Edit the builder in [report-test-build.sh](https://github.com/app-generator/devtool-ui-tester/blob/b6cbd7ae0ce9557151195b5242c6ecc491354b0b/report-test-build.sh#L37)
   - `Yarn` or `NPM` 
 
 <br />
 
-## Installation
+## ✨ Installation
 
 The compatibily check is run against the repositories in the `repositories.json` file. The file is located in the root of the repository.
 
@@ -38,7 +38,7 @@ To add a new repository, add a new entry to the `repositories.json` file.
 
 <br />
 
-## Automated Testing using GH Actions
+## ✨ Automated Testing using GH Actions
 
 The ui test tool can be run using GH actions. Using Github Actions, you benefit from parallel builds on different nodejs environment.
 ```yaml
