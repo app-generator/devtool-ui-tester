@@ -1,6 +1,8 @@
 # DevTool UI Tester
 
-This [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibilty of React projects accross different Node environments provided by [AppSeed](https://appseed.us/)
+This [developer tool](https://appseed.us/developer-tools/) provides a simple way to ensure compatibilty of React projects accross different Node environments using Yarn or NPM.
+
+> For [support](https://appseed.us/support/) and PR requests please access [AppSeed](https://appseed.us).
 
 <br />
 
