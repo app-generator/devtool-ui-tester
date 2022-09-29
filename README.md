@@ -12,7 +12,7 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 - 👉 Edit [repositories.json](./repositories.json) and add your projects to test
 - 👉 Edit [compatibility.yaml](./.github/workflows/compatibility.yaml#L18) and specify the Node verison
   - multiple values supported: `node-version: [16.x, 18.x]`
-- 👉 Edit the builder in `report-test-build.sh`
+- 👉 Edit the builder in [report-test-build.sh](./report-test-build.sh#L37)
   - `Yarn` or `NPM` 
 
 <br />
