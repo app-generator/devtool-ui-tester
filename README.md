@@ -6,7 +6,7 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 ## ✨ How to use it
 
-- 👉 Fork the project
+- 👉 [Fork the project](https://github.com/app-generator/devtool-ui-tester/fork) 
 - 👉 Edit `repositories.json` and add your repositories to test the build
 - 👉 Edit [compatibility.yaml](https://github.com/app-generator/devtool-ui-tester/blob/main/.github/workflows/compatibility.yaml#L18) and specify the Node verison
   - multiple values supported: `node-version: [16.x, 18.x]`
