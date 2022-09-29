@@ -4,6 +4,17 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 <br />
 
+## How to use it
+
+- Fork the project
+- Edit `repositories.json` and add your repositories to test the build
+- Edit [compatibility.yaml](https://github.com/app-generator/devtool-ui-tester/blob/main/.github/workflows/compatibility.yaml#L18) and specify the Node verison
+  - multiple values supported: `node-version: [16.x, 18.x]`
+- Edit the builder in [report-test-build.sh](https://github.com/app-generator/devtool-ui-tester/blob/b6cbd7ae0ce9557151195b5242c6ecc491354b0b/report-test-build.sh#L37)
+  - `Yarn` or `NPM` 
+
+<br />
+
 ## Installation
 
 The compatibily check is run against the repositories in the `repositories.json` file. The file is located in the root of the repository.
