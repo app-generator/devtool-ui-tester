@@ -6,6 +6,12 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 <br />
 
+## Video Presentation
+
+[![Watch the video](https://user-images.githubusercontent.com/51070104/192980365-69b1cce4-690d-4b83-9752-86bab2f609fb.jpg)](https://youtu.be/IfGmhNna6zE)
+
+<br />
+
 ## ✨ How to use it
 
 - 👉 [Fork the project](https://github.com/app-generator/devtool-ui-tester/generate) 
