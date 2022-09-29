@@ -8,7 +8,9 @@ This [developer tool](https://appseed.us/developer-tools/) provides a simple way
 
 ## Video Presentation
 
-[![Watch the video](https://user-images.githubusercontent.com/51070104/192980365-69b1cce4-690d-4b83-9752-86bab2f609fb.jpg)](https://youtu.be/IfGmhNna6zE)
+<br />
+
+https://user-images.githubusercontent.com/51070104/192981004-3f5751fa-9a2b-4d5f-a419-a1620c18e79c.mp4
 
 <br />
 
